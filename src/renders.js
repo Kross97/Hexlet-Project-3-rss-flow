@@ -15,7 +15,6 @@ export const renderList = (state) => {
   const divRes = document.querySelector('#res');
   const currentDiv = document.createElement('div');
   currentDiv.setAttribute('id', 'current');
-
   state.posts.dataflow.forEach((flow) => {
     const p = document.createElement('p');
     const ul = document.createElement('ul');
