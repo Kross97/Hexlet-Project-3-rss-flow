@@ -17,14 +17,30 @@ const parser = (data) => {
   return { title, description, items };
 };
 
-export default (link, state) => {
+export const urlSearch = (link, dataflow, eventLoad) => {
   const url = `${cors}${link}`;
   axios.get(url).then(({ data }) => {
     const result = parser(data);
-    state.posts.dataflow.push(result);
-    state.eventLoad.stateLink = 'load';
+    result.url = link;
+    dataflow.push(result);
+    eventLoad.stateLink = 'load';
   }).catch((e) => {
-    state.eventLoad.stateLink = 'failed';
+    eventLoad.stateLink = 'failed';
     console.log(e);
+  });
+};
+
+export const searchNewPosts = (posts) => {
+  posts.feeds.forEach((feed) => {
+    const url = `${cors}${feed}`;
+    axios.get(url).then(({ data }) => {
+      const result = parser(data);
+      const currentFlow = posts.dataflow.find(el => el.url === feed);
+      const titlesFlow = currentFlow.items.map(el => el.titleItem);
+      const newPosts = result.items.filter(item => !titlesFlow.includes(item.titleItem));
+      if (newPosts.length !== 0) {
+        newPosts.reverse().forEach(el => currentFlow.items.unshift(el));
+      }
+    }).catch(e => console.log(e));
   });
 };

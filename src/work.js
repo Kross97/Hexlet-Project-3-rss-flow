@@ -1,6 +1,6 @@
 import isURL from 'validator/lib/isURL';
 import WatchJS from 'melanke-watchjs';
-import urlSearch from './query';
+import { urlSearch, searchNewPosts } from './query';
 import { renderList, renderEvent, renderModal } from './renders';
 
 
@@ -36,10 +36,10 @@ export default () => {
   butn.addEventListener('click', () => {
     if (!state.posts.feeds.includes(state.inp.value)) {
       state.posts.feeds.push(state.inp.value);
-      urlSearch(state.inp.value, state);
+      urlSearch(state.inp.value, state.posts.dataflow, state.eventLoad);
       state.eventLoad.stateLink = 'loaded';
     }
-
+    setInterval(() => searchNewPosts(state.posts), 5000);
     input.value = '';
   });
 
