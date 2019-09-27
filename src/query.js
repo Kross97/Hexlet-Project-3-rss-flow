@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 const cors = 'https://cors-anywhere.herokuapp.com/';
 
@@ -17,15 +18,21 @@ const parser = (data) => {
   return { title, description, items };
 };
 
-export const urlSearch = (link, dataflow, eventLoad) => {
+export default (link, state) => {
   const url = `${cors}${link}`;
   axios.get(url).then(({ data }) => {
     const result = parser(data);
     result.url = link;
-    dataflow.push(result);
-    eventLoad.stateLink = 'load';
+    state.posts.dataflow.push(result);
+    // eslint-disable-next-line no-param-reassign
+    state.inputData.formState = 'loaded';
+    // eslint-disable-next-line no-param-reassign
+    state.eventState = 'loaded';
   }).catch((e) => {
-    eventLoad.stateLink = 'failed';
+    // eslint-disable-next-line no-param-reassign
+    state.inputData.formState = 'failed';
+    // eslint-disable-next-line no-param-reassign
+    state.eventState = 'failed';
     console.log(e);
   });
 };
@@ -36,8 +43,7 @@ export const searchNewPosts = (posts) => {
     axios.get(url).then(({ data }) => {
       const result = parser(data);
       const currentFlow = posts.dataflow.find(el => el.url === feed);
-      const titlesFlow = currentFlow.items.map(el => el.titleItem);
-      const newPosts = result.items.filter(item => !titlesFlow.includes(item.titleItem));
+      const newPosts = _.differenceBy(result.items, currentFlow.items, 'titleItem');
       if (newPosts.length !== 0) {
         newPosts.reverse().forEach(el => currentFlow.items.unshift(el));
       }

@@ -7,18 +7,20 @@
 <div class="jumbotron container-fluid">
    <div class="container col-10">
   <h1 class="display-7">RSS search</h1>
+  <form id="form-flow">
    <div class="row no-gutters">
     <div class="col-8">
-       <input id ="input-url" class="form-control " type="text"  placeholder="Search">
+       <input id ="input-url" class="form-control " type="text"  placeholder="Search" >
     </div>
     <div class="col-4">
-       <button id ="my-btn" class="btn btn-outline-success my-2 my-sm-0 btn-block" disabled>Search</button>
+       <button id ="my-btn" type="submit" class="btn btn-outline-success my-2 my-sm-0 btn-block" disabled>Search</button>
     </div>
   </div>
+</form>
   <div id="event"></div>
   </div>
 </div>
-<div id="res"></div>
+<div id="result-list"></div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
