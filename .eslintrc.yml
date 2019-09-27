@@ -6,6 +6,7 @@ plugins:
 env:
   node: true
   browser: true
+  es6: true
 
 parser: babel-eslint
 
@@ -14,4 +15,3 @@ extends:
 
 rules:
   no-console: 0
-  no-param-reassign: 0
