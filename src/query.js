@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const cors = 'https://cors-anywhere.herokuapp.com/';
 
-const parser = (data) => {
+const parses = (data) => {
   const parsObj = new DOMParser();
   const xmlDoc = parsObj.parseFromString(data, 'application/xml');
   const title = xmlDoc.querySelector('title').textContent;
@@ -21,7 +21,7 @@ const parser = (data) => {
 export default (link, state) => {
   const url = `${cors}${link}`;
   axios.get(url).then(({ data }) => {
-    const result = parser(data);
+    const result = parses(data);
     result.url = link;
     state.posts.dataflow.push(result);
     // eslint-disable-next-line no-param-reassign
@@ -37,16 +37,14 @@ export default (link, state) => {
   });
 };
 
-export const searchNewPosts = (posts) => {
+export const addingNewPosts = (posts) => {
   posts.feeds.forEach((feed) => {
     const url = `${cors}${feed}`;
     axios.get(url).then(({ data }) => {
-      const result = parser(data);
+      const result = parses(data);
       const currentFlow = posts.dataflow.find(el => el.url === feed);
       const newPosts = _.differenceBy(result.items, currentFlow.items, 'titleItem');
-      if (newPosts.length !== 0) {
-        newPosts.reverse().forEach(el => currentFlow.items.unshift(el));
-      }
+      newPosts.reverse().forEach(el => currentFlow.items.unshift(el));
     }).catch(e => console.log(e));
   });
 };

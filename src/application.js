@@ -1,6 +1,6 @@
 import isURL from 'validator/lib/isURL';
 import WatchJS from 'melanke-watchjs';
-import urlSearch, { searchNewPosts } from './query';
+import addingFlow, { addingNewPosts } from './query';
 import { renderList, renderEvent } from './renders';
 
 
@@ -32,7 +32,7 @@ export default () => {
   });
 
   buttonSearch.addEventListener('click', () => {
-    setInterval(() => searchNewPosts(state.posts), 5000);
+    setInterval(() => addingNewPosts(state.posts), 5000);
     // eslint-disable-next-line no-return-assign
     setTimeout(() => state.eventState = 'exit', 1000);
     // eslint-disable-next-line no-return-assign
@@ -43,7 +43,7 @@ export default () => {
     e.preventDefault();
     if (!state.posts.feeds.includes(state.inputData.value)) {
       state.posts.feeds.push(state.inputData.value);
-      urlSearch(state.inputData.value, state);
+      addingFlow(state.inputData.value, state);
       state.eventState = 'loading';
       state.inputData.formState = 'loading';
     } else {
