@@ -88,12 +88,10 @@ export default () => {
 
   watch(state, 'eventState', () => {
     renderEvent(state.eventState);
-    console.log(state.eventState);
   });
 
   watch(state, 'inputData', () => {
     const stateActual = state.inputData.formState;
-    console.log(stateActual);
     stateForm[stateActual]();
   });
 
