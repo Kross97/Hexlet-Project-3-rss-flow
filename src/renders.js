@@ -1,6 +1,6 @@
 
 export const renderModal = (modalTitle, modalText) => {
-  const divBody = document.querySelector('#exampleModalBody');
+  const divBody = document.querySelector('#exampleModal >.modal-dialog > .modal-content > .modal-body');
   const divTitle = document.querySelector('#exampleModalLabel');
   divBody.textContent = modalText;
   divTitle.textContent = modalTitle;
@@ -30,7 +30,7 @@ export const renderList = (state) => {
 
     flow.items.forEach((item) => {
       const li = document.createElement('li');
-      li.classList.add('col-6', 'list-group-item-secondary');
+      li.classList.add('col-4', 'list-group-item-secondary');
       li.setAttribute('data-modal-description', `${item.descriptionItem}`);
       const btn = document.createElement('button');
       btn.textContent = 'Modal info';

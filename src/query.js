@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const cors = 'https://cors-anywhere.herokuapp.com/';
 
-const parses = (data) => {
+const parse = (data) => {
   const parsObj = new DOMParser();
   const xmlDoc = parsObj.parseFromString(data, 'application/xml');
   const title = xmlDoc.querySelector('title').textContent;
@@ -21,7 +21,7 @@ const parses = (data) => {
 export default (link, state) => {
   const url = `${cors}${link}`;
   axios.get(url).then(({ data }) => {
-    const result = parses(data);
+    const result = parse(data);
     result.url = link;
     state.posts.dataflow.push(result);
     // eslint-disable-next-line no-param-reassign
@@ -41,7 +41,7 @@ export const addingNewPosts = (posts) => {
   posts.feeds.forEach((feed) => {
     const url = `${cors}${feed}`;
     axios.get(url).then(({ data }) => {
-      const result = parses(data);
+      const result = parse(data);
       const currentFlow = posts.dataflow.find(el => el.url === feed);
       const newPosts = _.differenceBy(result.items, currentFlow.items, 'titleItem');
       newPosts.reverse().forEach(el => currentFlow.items.unshift(el));
