@@ -1,6 +1,6 @@
 
 export const renderModal = (modalTitle, modalText) => {
-  const divBody = document.querySelector('[data-modal="exampleModal"]');
+  const divBody = document.querySelector('#exampleModal .modal-body');
   const divTitle = document.querySelector('#exampleModalLabel');
   divBody.textContent = modalText;
   divTitle.textContent = modalTitle;
